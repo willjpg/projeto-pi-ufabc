@@ -22,19 +22,19 @@ class Student:
         self.grades = {}
         self.final_letter = None
 
-    def calculate_final(self, pesos):
-        if self.pct_presenca < 25 or not self.grades:
+    def calculate_final(self, pesos, nota_min_a, nota_min_b, nota_min_c, nota_min_d, presenca_minima):
+        if self.pct_presenca < presenca_minima or not self.grades:
             self.final_letter = 'O'
             return
         soma_pesos = sum(pesos)
         media = sum(self.grades.get(i, 0) * w for i, w in enumerate(pesos, start=1)) / soma_pesos
-        if media < 4:
+        if media < nota_min_d:
             self.final_letter = 'F'
-        elif media < 5:
+        elif media < nota_min_c:
             self.final_letter = 'D'
-        elif media < 6.5:
+        elif media < nota_min_b:
             self.final_letter = 'C'
-        elif media < 8.5:
+        elif media < nota_min_a:
             self.final_letter = 'B'
         else:
             self.final_letter = 'A'
@@ -52,13 +52,23 @@ class Report:
         self.num_provas = 0
         self.pesos = []
         self.total_aulas = 0
+        self.nota_min_a = 8.5
+        self.nota_min_b = 6.5
+        self.nota_min_c = 5.0
+        self.nota_min_d = 4.0
+        self.presenca_minima = 25
 
-    def setup(self, total_aulas, num_provas, pesos):
+    def setup(self, total_aulas, num_provas, pesos, nota_min_a, nota_min_b, nota_min_c, nota_min_d, presenca_minima):
         # Inicializa parâmetros do relatório
         self.total_aulas = total_aulas
         self.num_provas = num_provas
         self.pesos = pesos
-        logging.info(f"Configuração: aulas={total_aulas}, provas={num_provas}, pesos={pesos}")
+        self.nota_min_a = nota_min_a
+        self.nota_min_b = nota_min_b
+        self.nota_min_c = nota_min_c
+        self.nota_min_d = nota_min_d
+        self.presenca_minima = presenca_minima
+        logging.info(f"Configuração: aulas={total_aulas}, provas={num_provas}, pesos={pesos}, notas_min={[nota_min_a, nota_min_b, nota_min_c, nota_min_d]}, presenca_min={presenca_minima}")
 
     def load_ra_list(self, buffer):
         # Lê RAs de arquivo .txt
@@ -94,7 +104,7 @@ class Report:
     def finalize(self):
         # Calcula letra final para todos
         for aluno in self.students.values():
-            aluno.calculate_final(self.pesos)
+            aluno.calculate_final(self.pesos, self.nota_min_a, self.nota_min_b, self.nota_min_c, self.nota_min_d, self.presenca_minima)
         logging.info("Médias finais calculadas")
 
     def summary(self):
@@ -133,9 +143,17 @@ for i in range(int(num_provas)):
         peso = st.number_input(f'P{i+1}', min_value=1, value=1, step=1)
         pesos.append(peso)
 
+st.sidebar.markdown("---")
+st.sidebar.subheader("Notas Mínimas por Conceito")
+nota_min_a = st.sidebar.number_input('Nota mínima para A', min_value=0.0, max_value=10.0, value=8.5, step=0.1)
+nota_min_b = st.sidebar.number_input('Nota mínima para B', min_value=0.0, max_value=10.0, value=6.5, step=0.1)
+nota_min_c = st.sidebar.number_input('Nota mínima para C', min_value=0.0, max_value=10.0, value=5.0, step=0.1)
+nota_min_d = st.sidebar.number_input('Nota mínima para D', min_value=0.0, max_value=10.0, value=4.0, step=0.1)
+presenca_minima = st.sidebar.number_input('Porcentagem mínima de presença', min_value=0, max_value=100, value=25, step=1)
+
 if st.sidebar.button('Criar/Resetar Relatório'):
     st.session_state.relatorio = Report()
-    st.session_state.relatorio.setup(int(total_aulas), int(num_provas), pesos)
+    st.session_state.relatorio.setup(int(total_aulas), int(num_provas), pesos, nota_min_a, nota_min_b, nota_min_c, nota_min_d, presenca_minima)
     st.success("Relatório configurado com sucesso.")
 
 arquivo_ras = st.sidebar.file_uploader("Carregar arquivo de RAs (.txt)", type=['txt'])
