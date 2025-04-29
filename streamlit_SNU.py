@@ -122,13 +122,18 @@ if 'relatorio' not in st.session_state:
 st.title("SNU")
 st.markdown("#### Sistema de Notas Universitário")
 
-# === Barra lateral: configuração do relatório e importação de RAs ===
+# ==e
 st.sidebar.header("Configuração do Relatório")
 total_aulas = st.sidebar.number_input('Total de aulas', min_value=1, step=1)
 num_provas = st.sidebar.number_input('Número de provas', min_value=1, step=1)
-pesos_input = st.sidebar.text_input('Pesos (vírgula)', value=','.join(['1']*int(num_provas)))
+pesos = []
+colunas = st.sidebar.columns(int(num_provas))
+for i in range(int(num_provas)):
+    with colunas[i]:
+        peso = st.number_input(f'P{i+1}', min_value=1, value=1, step=1)
+        pesos.append(peso)
+
 if st.sidebar.button('Criar/Resetar Relatório'):
-    pesos = list(map(float, pesos_input.split(',')))[:int(num_provas)]
     st.session_state.relatorio = Report()
     st.session_state.relatorio.setup(int(total_aulas), int(num_provas), pesos)
     st.success("Relatório configurado com sucesso.")
@@ -161,27 +166,40 @@ div.stButton > button {
 </style>
 """, unsafe_allow_html=True)
 
-operacoes = {
-    "Adicionar Aluno": "Adicionar Aluno 👥➕",
-    "Lançar Nota": "Lançar Nota 📝✅",
-    "Editar Nota": "Editar Nota ✏️🔄",
-    "Excluir Aluno": "Excluir Aluno 👥➖",
-    "Excluir Nota": "Excluir Nota 📝❌",
-    "Finalizar": "Finalizar 🏁",
-    "Resumo": "Resumo 📊",
-    "Exportar TXT": "Exportar TXT 📄➡️",
-    "Exportar PDF": "Exportar PDF 📄⬇️"
-}
-cols = st.columns(3)
-for idx, (chave, rotulo) in enumerate(operacoes.items()):
-    if cols[idx % 3].button(rotulo, key=chave):
-        st.session_state.acao = chave
+# Mostra os botões de ação apenas se houver um relatório configurado
+if hasattr(st.session_state.relatorio, 'total_aulas') and st.session_state.relatorio.total_aulas > 0:
+    # Verifica se as médias foram calculadas
+    medias_calculadas = any(student.final_letter is not None for student in st.session_state.relatorio.students.values())
+    
+    operacoes = {
+        "Adicionar Aluno": "Adicionar Aluno 👥➕",
+        # "Editar Nota": "Editar Nota ✏️🔄",
+        "Lançar Nota": "Lançar Nota 📝✅",
+        "Exportar": "Exportar 📄",
+        "Excluir Aluno": "Excluir Aluno 👥➖",
+        "Excluir Nota": "Excluir Nota 📝❌",
+        "Finalizar": "Finalizar 🏁",
+    }
+    
+    # Adiciona o botão de Resumo apenas se as médias foram calculadas
+    if medias_calculadas:
+        operacoes["Resumo"] = "Resumo 📊"
+    
+    cols = st.columns(3)
+    for idx, (chave, rotulo) in enumerate(operacoes.items()):
+        if idx == len(operacoes) - 1 and chave == "Resumo":  # Verifica se é o último item e se é o botão de Resumo
+            st.columns(1)[0].button(rotulo, key=chave)  # Ocupa 100% da largura
+            st.session_state.acao = chave
+        else:
+            if cols[idx % 3].button(rotulo, key=chave):
+                st.session_state.acao = chave
+else:
+    st.info("Configure o relatório no menu lateral para começar a usar o sistema.")
 
 # === Lógica das ações ===
 acao = st.session_state.acao
 relatorio = st.session_state.relatorio
 
-# 1) Adicionar aluno manualmente
 if acao == "Adicionar Aluno":
     ra = st.text_input('RA do aluno', key='ra_add')
     aulas_freq = st.number_input('Aulas frequentadas', min_value=0,
@@ -191,23 +209,24 @@ if acao == "Adicionar Aluno":
         relatorio.add_student(ra, aulas_freq)
         st.success(f"Aluno {ra} adicionado.")
 
-# 2) Lançar nota
 elif acao == "Lançar Nota":
     ra = st.selectbox('RA', list(relatorio.students.keys()), key='ra_grade')
-    prova = st.number_input('Prova', min_value=1, max_value=int(relatorio.num_provas), step=1, key='ex_grade')
-    nota = st.number_input('Nota', min_value=0.0, max_value=10.0, step=0.1, key='val_grade')
+    notas = []
+    for i in range(1, int(relatorio.num_provas) + 1):
+        nota = st.number_input(f'Nota da Prova {i}', min_value=0.0, max_value=10.0, step=0.1, key=f'val_grade_{i}')
+        notas.append(nota)
     if st.button('Lançar', key='btn_grade'):
-        relatorio.add_grade(ra, prova, nota)
-        st.success(f"Nota {nota} lançada para {ra}.")
+        for i, nota in enumerate(notas, start=1):
+            relatorio.add_grade(ra, i, nota)
+        st.success(f"Notas lançadas para {ra}.")
 
-# ... (ações Editar, Excluir, Finalizar, Resumo, Exportar seguem padrão similar)
-elif acao == "Editar Nota":
-    ra = st.selectbox('RA', list(relatorio.students.keys()), key='ra_edit')
-    exam = st.number_input('Prova', min_value=1, max_value=int(relatorio.num_provas), step=1, key='ex_edit')
-    new_grade = st.number_input('Nova Nota', min_value=0.0, max_value=10.0, step=0.1, key='val_edit')
-    if st.button('Editar', key='btn_edit'):
-        relatorio.edit_grade(ra, exam, new_grade)
-        st.success(f"Nota atualizada para {ra}.")
+# elif acao == "Editar Nota":
+#     ra = st.selectbox('RA', list(relatorio.students.keys()), key='ra_edit')
+#     exam = st.number_input('Prova', min_value=1, max_value=int(relatorio.num_provas), step=1, key='ex_edit')
+#     new_grade = st.number_input('Nova Nota', min_value=0.0, max_value=10.0, step=0.1, key='val_edit')
+#     if st.button('Editar', key='btn_edit'):
+#         relatorio.edit_grade(ra, exam, new_grade)
+#         st.success(f"Nota atualizada para {ra}.")
 
 elif acao == "Excluir Aluno":
     ra = st.selectbox('RA', list(relatorio.students.keys()), key='ra_del')
@@ -227,7 +246,6 @@ elif acao == "Finalizar":
     if st.button('Calcular Médias', key='btn_fin'):
         relatorio.finalize()
         st.success("Médias calculadas.")
-
 
 elif acao == "Resumo":
     counts = relatorio.summary()
@@ -287,26 +305,32 @@ elif acao == "Resumo":
             st.subheader("Reprovados por Falta 🚫")
             st.write(", ".join(reprovados_falta))
 
-
-elif acao == "Exportar TXT":
-    df = relatorio.to_dataframe()
-    txt_buf = df.to_csv(index=False, sep=',')
-    st.download_button('Baixar TXT', txt_buf, file_name='relatorio.txt', mime='text/csv', key='btn_txt')
-
-elif acao == "Exportar PDF":
-    df = relatorio.to_dataframe()
-    buffer = BytesIO()
-    data = [df.columns.tolist()] + df.values.tolist()
-    doc = SimpleDocTemplate(buffer, pagesize=letter)
-    table = Table(data)
-    style = TableStyle([
-        ('GRID', (0,0), (-1,-1), 1, colors.black),
-        ('BACKGROUND', (0,0), (-1,0), colors.lightgrey)
-    ])
-    table.setStyle(style)
-    doc.build([table])
-    buffer.seek(0)
-    st.download_button('Baixar PDF', buffer, file_name='relatorio.pdf', mime='application/pdf', key='btn_pdf')
+elif acao == "Exportar":
+    st.subheader("Exportar Relatório")
+    if relatorio.students:
+        df = relatorio.to_dataframe()
+        # Exportação TXT e PDF lado a lado
+        col1, col2 = st.columns(2)
+        
+        # Exportação TXT
+        txt_buf = df.to_csv(index=False, sep=',')
+        st.download_button('Baixar TXT', txt_buf, file_name='relatorio.txt', mime='text/csv', key='btn_txt')
+        
+        # Exportação PDF
+        buffer = BytesIO()
+        data = [df.columns.tolist()] + df.values.tolist()
+        doc = SimpleDocTemplate(buffer, pagesize=letter)
+        table = Table(data)
+        style = TableStyle([
+            ('GRID', (0,0), (-1,-1), 1, colors.black),
+            ('BACKGROUND', (0,0), (-1,0), colors.lightgrey)
+        ])
+        table.setStyle(style)
+        doc.build([table])
+        buffer.seek(0)
+        st.download_button('Baixar PDF', buffer, file_name='relatorio.pdf', mime='application/pdf', key='btn_pdf')
+    else:
+        st.info("Adicione alunos ao relatório para poder exportá-lo.")
 
 # === Exibição da tabela geral ===
 st.header("Visão Geral")
