@@ -242,6 +242,14 @@ elif acao == "Lançar Nota":
             relatorio.add_grade(ra, i, nota)
         st.success(f"Notas lançadas para {ra}.")
 
+# elif acao == "Editar Nota":
+#     ra = st.selectbox('RA', list(relatorio.students.keys()), key='ra_edit')
+#     exam = st.number_input('Prova', min_value=1, max_value=int(relatorio.num_provas), step=1, key='ex_edit')
+#     new_grade = st.number_input('Nova Nota', min_value=0.0, max_value=10.0, step=0.1, key='val_edit')
+#     if st.button('Editar', key='btn_edit'):
+#         relatorio.edit_grade(ra, exam, new_grade)
+#         st.success(f"Nota atualizada para {ra}.")
+
 elif acao == "Excluir Aluno":
     ra = st.selectbox('RA', list(relatorio.students.keys()), key='ra_del')
     if st.button('Excluir', key='btn_del'):
