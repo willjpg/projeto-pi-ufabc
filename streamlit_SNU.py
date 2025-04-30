@@ -129,7 +129,7 @@ if 'relatorio' not in st.session_state:
     st.session_state.relatorio = Report()
 
 # === Cabeçalho da página ===
-st.title("SNU")
+st.title("SUN")
 st.markdown("#### Sistema de Notas Universitário")
 
 # ==e
@@ -179,7 +179,11 @@ st.markdown("""
 <style>
 div.stButton > button {
     width: 100%;
-    font-size: 16px;
+}
+/* Estilo específico para o botão Resumo */
+div[data-testid="stButton"] button[data-testid="baseButton-secondary"] {
+    width: 100%;
+    max-width: 100%;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -188,10 +192,10 @@ div.stButton > button {
 if hasattr(st.session_state.relatorio, 'total_aulas') and st.session_state.relatorio.total_aulas > 0:
     # Verifica se as médias foram calculadas
     medias_calculadas = any(student.final_letter is not None for student in st.session_state.relatorio.students.values())
+    operacoes = {}
     
     operacoes = {
         "Adicionar Aluno": "Adicionar Aluno 👥➕",
-        # "Editar Nota": "Editar Nota ✏️🔄",
         "Lançar Nota": "Lançar Nota 📝✅",
         "Exportar": "Exportar 📄",
         "Excluir Aluno": "Excluir Aluno 👥➖",
@@ -199,20 +203,20 @@ if hasattr(st.session_state.relatorio, 'total_aulas') and st.session_state.relat
         "Finalizar": "Finalizar 🏁",
     }
     
-    # Adiciona o botão de Resumo apenas se as médias foram calculadas
-    if medias_calculadas:
-        operacoes["Resumo"] = "Resumo 📊"
-    
+    # Botões principais em 3 colunas
     cols = st.columns(3)
     for idx, (chave, rotulo) in enumerate(operacoes.items()):
-        if idx == len(operacoes) - 1 and chave == "Resumo":  # Verifica se é o último item e se é o botão de Resumo
-            st.columns(1)[0].button(rotulo, key=chave)  # Ocupa 100% da largura
+        if cols[idx % 3].button(rotulo, key=chave):
             st.session_state.acao = chave
-        else:
-            if cols[idx % 3].button(rotulo, key=chave):
-                st.session_state.acao = chave
+    
+    # Botão de resumo com largura total (se as médias foram calculadas)
+    if medias_calculadas:
+        if st.button("Resumo 📊", key="Resumo", use_container_width=True):
+            st.session_state.acao = "Resumo"
 else:
     st.info("Configure o relatório no menu lateral para começar a usar o sistema.")
+
+st.divider()
 
 # === Lógica das ações ===
 acao = st.session_state.acao
@@ -237,14 +241,6 @@ elif acao == "Lançar Nota":
         for i, nota in enumerate(notas, start=1):
             relatorio.add_grade(ra, i, nota)
         st.success(f"Notas lançadas para {ra}.")
-
-# elif acao == "Editar Nota":
-#     ra = st.selectbox('RA', list(relatorio.students.keys()), key='ra_edit')
-#     exam = st.number_input('Prova', min_value=1, max_value=int(relatorio.num_provas), step=1, key='ex_edit')
-#     new_grade = st.number_input('Nova Nota', min_value=0.0, max_value=10.0, step=0.1, key='val_edit')
-#     if st.button('Editar', key='btn_edit'):
-#         relatorio.edit_grade(ra, exam, new_grade)
-#         st.success(f"Nota atualizada para {ra}.")
 
 elif acao == "Excluir Aluno":
     ra = st.selectbox('RA', list(relatorio.students.keys()), key='ra_del')
