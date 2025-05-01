@@ -54,3 +54,92 @@
 2025-05-01 14:17:53,361 - INFO - Médias finais calculadas
 2025-05-01 14:17:54,524 - INFO - Médias finais calculadas
 2025-05-01 14:18:24,240 - INFO - Médias finais calculadas
+2025-05-01 14:25:53,284 - INFO - Configuração: aulas=1, provas=1, pesos=[1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 14:26:08,245 - INFO - Aluno 25 adicionado, presença 100.0%
+2025-05-01 14:29:31,083 - INFO - Nota 8.0 adicionada: RA 25, prova 1
+2025-05-01 14:31:29,741 - INFO - Nota editada: RA 25, prova 1, 8.0->5.0
+2025-05-01 14:34:30,770 - INFO - Médias finais calculadas
+2025-05-01 14:37:12,803 - INFO - Configuração: aulas=1, provas=1, pesos=[1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 14:37:28,332 - INFO - Configuração: aulas=1, provas=1, pesos=[1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 14:43:07,987 - INFO - Configuração: aulas=1, provas=1, pesos=[1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 14:45:56,070 - INFO - Aluno 12 adicionado, presença 100.0%
+2025-05-01 14:46:15,452 - INFO - Nota 10.0 adicionada: RA 12, prova 1
+2025-05-01 14:55:44,485 - INFO - Nota 9.500000000000002 adicionada: RA 12, prova 1
+2025-05-01 14:55:50,685 - INFO - Nota 9.000000000000004 adicionada: RA 12, prova 1
+2025-05-01 15:05:29,662 - INFO - Configuração: aulas=1, provas=1, pesos=[1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 15:05:34,042 - INFO - Aluno 123123123 adicionado, presença 0.0%
+2025-05-01 15:06:00,252 - INFO - Configuração: aulas=1, provas=3, pesos=[1, 1, 1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 15:06:08,683 - INFO - Aluno 123123123 adicionado, presença 100.0%
+2025-05-01 15:06:20,610 - INFO - Aluno 123123123564564974 adicionado, presença 100.0%
+2025-05-01 15:07:07,309 - INFO - Aluno 11202225468  adicionado, presença 100.0%
+2025-05-01 15:08:46,230 - INFO - Configuração: aulas=1, provas=4, pesos=[1, 1, 1, 1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 15:08:56,830 - INFO - Aluno 112025567764 adicionado, presença 100.0%
+2025-05-01 15:08:56,830 - INFO - Aluno 112025789965 adicionado, presença 100.0%
+2025-05-01 15:08:56,830 - INFO - Aluno 112025789923 adicionado, presença 100.0%
+2025-05-01 15:08:56,831 - INFO - Aluno 112025789978 adicionado, presença 100.0%
+2025-05-01 15:08:56,831 - INFO - Aluno 112025789987 adicionado, presença 100.0%
+2025-05-01 15:08:56,831 - INFO - Aluno 112025789974 adicionado, presença 100.0%
+2025-05-01 15:11:03,471 - INFO - Configuração: aulas=1, provas=1, pesos=[1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 15:11:05,951 - INFO - Aluno 112025567764 adicionado, presença 100.0%
+2025-05-01 15:11:05,951 - INFO - Aluno 112025789965 adicionado, presença 100.0%
+2025-05-01 15:11:05,951 - INFO - Aluno 112025789923 adicionado, presença 100.0%
+2025-05-01 15:11:05,951 - INFO - Aluno 112025789978 adicionado, presença 100.0%
+2025-05-01 15:11:05,952 - INFO - Aluno 112025789987 adicionado, presença 100.0%
+2025-05-01 15:11:05,952 - INFO - Aluno 112025789974 adicionado, presença 100.0%
+2025-05-01 15:11:27,835 - INFO - Médias finais calculadas
+2025-05-01 15:15:44,821 - INFO - Configuração: aulas=1, provas=4, pesos=[1, 1, 1, 1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 15:15:47,273 - INFO - Aluno 112025567764 adicionado, presença 100.0%
+2025-05-01 15:15:47,273 - INFO - Aluno 112025789965 adicionado, presença 100.0%
+2025-05-01 15:15:47,273 - INFO - Aluno 112025789923 adicionado, presença 100.0%
+2025-05-01 15:15:47,273 - INFO - Aluno 112025789978 adicionado, presença 100.0%
+2025-05-01 15:15:47,273 - INFO - Aluno 112025789987 adicionado, presença 100.0%
+2025-05-01 15:15:47,273 - INFO - Aluno 112025789974 adicionado, presença 100.0%
+2025-05-01 15:16:20,084 - INFO - Aluno 312312 adicionado, presença 100.0%
+2025-05-01 15:16:21,977 - INFO - Aluno 32131 adicionado, presença 100.0%
+2025-05-01 15:16:24,529 - INFO - Aluno 31241 adicionado, presença 100.0%
+2025-05-01 15:16:26,518 - INFO - Aluno 534543 adicionado, presença 100.0%
+2025-05-01 15:16:28,336 - INFO - Aluno 7567858 adicionado, presença 100.0%
+2025-05-01 15:16:30,356 - INFO - Aluno 798978967 adicionado, presença 100.0%
+2025-05-01 15:16:32,263 - INFO - Aluno 907807890 adicionado, presença 100.0%
+2025-05-01 15:16:34,392 - INFO - Aluno 908079 adicionado, presença 100.0%
+2025-05-01 15:16:36,663 - INFO - Aluno 5865 adicionado, presença 100.0%
+2025-05-01 15:18:31,514 - INFO - Configuração: aulas=1, provas=3, pesos=[1, 1, 1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 15:18:34,563 - INFO - Aluno 112025567764 adicionado, presença 100.0%
+2025-05-01 15:18:34,563 - INFO - Aluno 112025789965 adicionado, presença 100.0%
+2025-05-01 15:18:34,563 - INFO - Aluno 112025789923 adicionado, presença 100.0%
+2025-05-01 15:18:34,564 - INFO - Aluno 112025789978 adicionado, presença 100.0%
+2025-05-01 15:18:34,564 - INFO - Aluno 112025789987 adicionado, presença 100.0%
+2025-05-01 15:18:34,564 - INFO - Aluno 112025789974 adicionado, presença 100.0%
+2025-05-01 15:20:39,800 - INFO - Configuração: aulas=1, provas=1, pesos=[1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 15:20:46,908 - INFO - Aluno 112025567764 adicionado, presença 100.0%
+2025-05-01 15:20:46,908 - INFO - Aluno 112025789965 adicionado, presença 100.0%
+2025-05-01 15:20:46,908 - INFO - Aluno 112025789923 adicionado, presença 100.0%
+2025-05-01 15:20:46,909 - INFO - Aluno 112025789978 adicionado, presença 100.0%
+2025-05-01 15:20:46,909 - INFO - Aluno 112025789987 adicionado, presença 100.0%
+2025-05-01 15:20:46,909 - INFO - Aluno 112025789974 adicionado, presença 100.0%
+2025-05-01 15:30:30,535 - INFO - Configuração: aulas=1, provas=1, pesos=[1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 15:30:39,001 - INFO - Aluno 112025567764 adicionado, presença 100.0%
+2025-05-01 15:30:39,001 - INFO - Aluno 112025789965 adicionado, presença 100.0%
+2025-05-01 15:30:39,001 - INFO - Aluno 112025789923 adicionado, presença 100.0%
+2025-05-01 15:30:39,002 - INFO - Aluno 112025789978 adicionado, presença 100.0%
+2025-05-01 15:30:39,002 - INFO - Aluno 112025789987 adicionado, presença 100.0%
+2025-05-01 15:30:39,002 - INFO - Aluno 112025789974 adicionado, presença 100.0%
+2025-05-01 15:30:49,718 - INFO - Aluno 1231646445665 adicionado, presença 100.0%
+2025-05-01 15:30:55,172 - INFO - Aluno 5644654665 adicionado, presença 100.0%
+2025-05-01 15:30:59,858 - INFO - Nota 10.0 adicionada: RA 112025567764, prova 1
+2025-05-01 15:31:03,106 - INFO - Nota 10.0 adicionada: RA 112025789965, prova 1
+2025-05-01 15:31:05,373 - INFO - Nota 10.0 adicionada: RA 1231646445665, prova 1
+2025-05-01 15:31:10,584 - INFO - Nota 5.0 adicionada: RA 112025789974, prova 1
+2025-05-01 15:31:13,170 - INFO - Nota 5.0 adicionada: RA 112025789923, prova 1
+2025-05-01 15:31:16,070 - INFO - Nota 5.0 adicionada: RA 5644654665, prova 1
+2025-05-01 15:31:21,302 - INFO - Nota 4.0 adicionada: RA 112025789978, prova 1
+2025-05-01 15:31:28,638 - INFO - Nota 2.0 adicionada: RA 112025789987, prova 1
+2025-05-01 15:31:37,260 - INFO - Médias finais calculadas
+2025-05-01 15:53:35,215 - INFO - Configuração: aulas=1, provas=1, pesos=[1], notas_min=[8.5, 6.5, 5.0, 4.0], presenca_min=25
+2025-05-01 15:54:04,529 - INFO - Aluno 14 adicionado, presença 100.0%
+2025-05-01 15:54:08,412 - INFO - Aluno 41 adicionado, presença 100.0%
+2025-05-01 15:54:10,900 - INFO - Aluno 57 adicionado, presença 100.0%
+2025-05-01 15:54:26,106 - INFO - Nota 4.0 adicionada: RA 14, prova 1
+2025-05-01 15:54:29,381 - INFO - Nota 4.0 adicionada: RA 41, prova 1
+2025-05-01 15:54:32,754 - INFO - Nota 7.0 adicionada: RA 57, prova 1
+2025-05-01 15:54:35,784 - INFO - Médias finais calculadas
