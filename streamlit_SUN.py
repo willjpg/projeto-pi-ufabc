@@ -147,7 +147,7 @@ nota_min_a = st.sidebar.number_input('Nota mínima para A', min_value=0.0, max_v
 nota_min_b = st.sidebar.number_input('Nota mínima para B', min_value=0.0, max_value=10.0, value=6.5, step=0.1)
 nota_min_c = st.sidebar.number_input('Nota mínima para C', min_value=0.0, max_value=10.0, value=5.0, step=0.1)
 nota_min_d = st.sidebar.number_input('Nota mínima para D', min_value=0.0, max_value=10.0, value=4.0, step=0.1)
-presenca_minima = st.sidebar.number_input('Porcentagem mínima de ausências', min_value=0, max_value=100, value=25, step=1)
+presenca_minima = st.sidebar.number_input('Porcentagem máxima de presenças', min_value=0, max_value=100, value=75, step=1)
 
 if st.sidebar.button('Criar/Resetar Relatório'):
     st.session_state.relatorio = Report()
