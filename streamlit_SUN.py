@@ -105,6 +105,7 @@ class Report:
         # Calcula letra final para todos
         for aluno in self.students.values():
             aluno.calculate_final(self.pesos, self.nota_min_a, self.nota_min_b, self.nota_min_c, self.nota_min_d, self.presenca_minima)
+        
         logging.info("Médias finais calculadas")
 
     def summary(self):
@@ -130,7 +131,7 @@ if 'relatorio' not in st.session_state:
 
 # === Cabeçalho da página ===
 st.title("SUN")
-st.markdown("#### Sistema de Notas Universitário")
+st.markdown("#### Sistema Universitário de Notas")
 
 # ==e
 st.sidebar.header("Configuração do Relatório")
@@ -157,15 +158,27 @@ if st.sidebar.button('Criar/Resetar Relatório'):
     st.success("Relatório configurado com sucesso.")
 
 arquivo_ras = st.sidebar.file_uploader("Carregar arquivo de RAs (.txt)", type=['txt'])
+# Armazena os campos de presença para todos os RAs
+if 'presencas' not in st.session_state:
+    st.session_state.presencas = {}
+
+# Exibe campos de input para cada RA
 if arquivo_ras:
     lista_ras = st.session_state.relatorio.load_ra_list(arquivo_ras)
     st.sidebar.write(f"RAs carregados: {len(lista_ras)} alunos")
+    
+    st.sidebar.subheader("Frequência dos alunos")
+    for ra in lista_ras:
+        st.session_state.presencas[ra] = st.sidebar.number_input(
+            f'Aulas frequentadas por {ra}',
+            min_value=0,
+            max_value=int(total_aulas),
+            key=f'att_{ra}'
+        )
+
     if st.sidebar.button('Adicionar RAs com presença'):
         for ra in lista_ras:
-            aulas_freq = st.sidebar.number_input(
-                f'Aulas frequentadas por {ra}', min_value=0,
-                max_value=int(total_aulas), key=f'att_{ra}'
-            )
+            aulas_freq = st.session_state.presencas.get(ra, 0)
             if aulas_freq:
                 st.session_state.relatorio.add_student(ra, aulas_freq)
         st.sidebar.success('Alunos adicionados via lista.')
@@ -192,7 +205,7 @@ div[data-testid="stButton"] button[data-testid="baseButton-secondary"] {
 if hasattr(st.session_state.relatorio, 'total_aulas') and st.session_state.relatorio.total_aulas > 0:
     # Verifica se as médias foram calculadas
     medias_calculadas = any(student.final_letter is not None for student in st.session_state.relatorio.students.values())
-    operacoes = {}
+    #operacoes = {}
     
     operacoes = {
         "Adicionar Aluno": "Adicionar Aluno 👥➕",
@@ -210,8 +223,13 @@ if hasattr(st.session_state.relatorio, 'total_aulas') and st.session_state.relat
             st.session_state.acao = chave
     
     # Botão de resumo com largura total (se as médias foram calculadas)
-    if medias_calculadas:
-        if st.button("Resumo 📊", key="Resumo", use_container_width=True):
+    #if medias_calculadas:
+    if st.button("Resumo 📊", key="Resumo", use_container_width=True):
+        #relatorio = st.session_state.relatorio.students.values()
+        # só executa se tiver pelo menos um aluno
+        if medias_calculadas == False:
+            st.warning("Não há médias caculadas ")
+        else:
             st.session_state.acao = "Resumo"
 else:
     st.info("Configure o relatório no menu lateral para começar a usar o sistema.")
@@ -264,7 +282,7 @@ elif acao == "Excluir Nota":
         st.success(f"Nota de {ra} excluída.")
 
 elif acao == "Finalizar":
-
+    st.subheader("Finalizar Relatório ✅")
     if st.button('Calcular Médias', key='btn_fin'):
         relatorio.finalize()
         st.success("Médias calculadas.")
@@ -273,7 +291,7 @@ elif acao == "Resumo":
     counts = relatorio.summary()
     total_alunos = sum(counts.values())
 
-    st.subheader("Resumo de Letras 📚")
+    st.subheader("Resumo de Conceitos 📚")
     st.bar_chart(counts)
 
     st.subheader("Resumo em Percentuais 📈")
